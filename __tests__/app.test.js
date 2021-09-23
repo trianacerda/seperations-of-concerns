@@ -1,5 +1,5 @@
 const pool = require('../lib/utils/pool');
-const twilio = require('twilio');
+// const twilio = require('twilio');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
@@ -10,7 +10,7 @@ jest.mock('twilio', () => () => ({
   },
 }));
 
-describe('03_separation-of-concerns-demo routes', () => {
+describe('separation-of-concerns routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -28,14 +28,18 @@ describe('03_separation-of-concerns-demo routes', () => {
       });
   });
 
-  it('should GET all orders', () => {
+  // eslint-disable-next-line space-before-function-paren
+  it.only('should GET all orders', async () => {
+    await request(app).post('/api/v1/orders').send({ quantity: 10 });
     return request(app)
       .get('/api/v1/orders')
       .then((res) => {
-        expect(res.body).toEqual({
-          id: '1',
-          quantity: 10,
-        });
+        expect(res.body).toEqual([
+          {
+            id: '1',
+            quantity: 10,
+          },
+        ]);
       });
   });
 });
