@@ -29,7 +29,7 @@ describe('separation-of-concerns routes', () => {
   });
 
   // eslint-disable-next-line space-before-function-paren
-  it.only('should GET all orders', async () => {
+  it('should GET all orders', async () => {
     await request(app).post('/api/v1/orders').send({ quantity: 10 });
     return request(app)
       .get('/api/v1/orders')
@@ -40,6 +40,19 @@ describe('separation-of-concerns routes', () => {
             quantity: 10,
           },
         ]);
+      });
+  });
+
+  // eslint-disable-next-line space-before-function-paren
+  it.only('should GET order by id', async () => {
+    await request(app).post('/api/v1/orders').send({ quantity: 10 });
+    return request(app)
+      .get('/api/v1/orders/1')
+      .then((res) => {
+        expect(res.body).toEqual({
+          id: '1',
+          quantity: 10,
+        });
       });
   });
 });
