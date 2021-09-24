@@ -21,7 +21,6 @@ describe('separation-of-concerns routes', () => {
       .post('/api/v1/orders')
       .send({ quantity: 10 })
       .then((res) => {
-        // expect(createMessage).toHaveBeenCalledTimes(1);
         expect(res.body).toEqual({
           id: '1',
           quantity: 10,
@@ -29,7 +28,6 @@ describe('separation-of-concerns routes', () => {
       });
   });
 
-  // eslint-disable-next-line space-before-function-paren
   it('should GET all orders', async () => {
     await request(app).post('/api/v1/orders').send({ quantity: 10 });
     return request(app)
@@ -44,7 +42,6 @@ describe('separation-of-concerns routes', () => {
       });
   });
 
-  // eslint-disable-next-line space-before-function-paren
   it('should GET order by id', async () => {
     await request(app).post('/api/v1/orders').send({
       id: '1',
@@ -74,6 +71,21 @@ describe('separation-of-concerns routes', () => {
         expect(res.body).toEqual({
           id: '1',
           quantity: 24,
+        });
+      });
+  });
+
+  it('should DELETE an order by id', async () => {
+    await request(app).post('/api/v1/orders').send({
+      id: '1',
+      quantity: 10,
+    });
+    return request(app)
+      .delete('/api/v1/orders/1')
+      .then((res) => {
+        expect(res.body).toEqual({
+          id: '1',
+          quantity: 10,
         });
       });
   });
