@@ -45,7 +45,10 @@ describe('separation-of-concerns routes', () => {
 
   // eslint-disable-next-line space-before-function-paren
   it.only('should GET order by id', async () => {
-    await request(app).post('/api/v1/orders').send({ quantity: 10 });
+    await request(app).post('/api/v1/orders').send({
+      id: '1',
+      quantity: 10,
+    });
     return request(app)
       .get('/api/v1/orders/1')
       .then((res) => {
