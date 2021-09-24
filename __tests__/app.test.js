@@ -1,3 +1,4 @@
+/* eslint-disable space-before-function-paren */
 const pool = require('../lib/utils/pool');
 // const twilio = require('twilio');
 const setup = require('../data/setup');
@@ -20,7 +21,6 @@ describe('separation-of-concerns routes', () => {
       .post('/api/v1/orders')
       .send({ quantity: 10 })
       .then((res) => {
-        // expect(createMessage).toHaveBeenCalledTimes(1);
         expect(res.body).toEqual({
           id: '1',
           quantity: 10,
@@ -28,8 +28,7 @@ describe('separation-of-concerns routes', () => {
       });
   });
 
-  // eslint-disable-next-line space-before-function-paren
-  it.only('should GET all orders', async () => {
+  it('should GET all orders', async () => {
     await request(app).post('/api/v1/orders').send({ quantity: 10 });
     return request(app)
       .get('/api/v1/orders')
@@ -40,6 +39,51 @@ describe('separation-of-concerns routes', () => {
             quantity: 10,
           },
         ]);
+      });
+  });
+
+  it('should GET order by id', async () => {
+    await request(app).post('/api/v1/orders').send({
+      id: '1',
+      quantity: 10,
+    });
+    return request(app)
+      .get('/api/v1/orders/1')
+      .then((res) => {
+        expect(res.body).toEqual({
+          id: '1',
+          quantity: 10,
+        });
+      });
+  });
+
+  it('should PATCH an order by id', async () => {
+    await request(app).post('/api/v1/orders').send({
+      id: '1',
+      quantity: 10,
+    });
+    await request(app).patch('/api/v1/orders/1').send({
+      quantity: 24,
+    });
+    return request(app)
+      .get('/api/v1/orders/1')
+      .then((res) => {
+        expect(res.body).toEqual({
+          id: '1',
+          quantity: 24,
+        });
+      });
+  });
+
+  it('should DELETE an order by id', async () => {
+    await request(app).post('/api/v1/orders').send({
+      id: '1',
+      quantity: 10,
+    });
+    return request(app)
+      .delete('/api/v1/orders/1')
+      .then((res) => {
+        expect(res.body).toEqual({});
       });
   });
 });
