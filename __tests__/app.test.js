@@ -61,8 +61,11 @@ describe('separation-of-concerns routes', () => {
   });
 
   it('should PATCH an order by id', async () => {
-    await request(app).patch('/api/v1/orders/1').send({
+    await request(app).post('/api/v1/orders').send({
       id: '1',
+      quantity: 10,
+    });
+    await request(app).patch('/api/v1/orders/1').send({
       quantity: 24,
     });
     return request(app)
