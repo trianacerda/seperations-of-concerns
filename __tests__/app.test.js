@@ -83,10 +83,7 @@ describe('separation-of-concerns routes', () => {
     return request(app)
       .delete('/api/v1/orders/1')
       .then((res) => {
-        expect(res.body).toEqual({
-          id: '1',
-          quantity: 10,
-        });
+        expect(res.body).toEqual({});
       });
   });
 });
